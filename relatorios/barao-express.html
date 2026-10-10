@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Barão Express — Relatório de Performance | Elite Marketing Digital</title>
+  <meta name="description" content="Relatório mensal de desempenho Meta Ads — Barão Express. Gestão Elite Marketing Digital.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+  <style>
+    /* ─── TOKENS — idêntico ao site Elite ─── */
+    :root {
+      --bg:       #04070D;
+      --bg-2:     #0A111E;
+      --bg-card:  #0D1626;
+      --ink:      #F2F4F8;
+      --muted:    #A3ADBD;
+      --gold-1:   #D9A94E;
+      --gold-2:   #F4D58D;
+      --blue-1:   #3B82F6;
+      --blue-2:   #60A5FA;
+      --green:    #22C55E;
+      --border:   rgba(217,169,78,.18);
+      --radius:   14px;
+      color-scheme: dark;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Montserrat', 'Segoe UI', Helvetica Neue, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ─── FUNDO COM GRID ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 60% 50% at 80% 10%, rgba(59,130,246,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(217,169,78,.05) 0%, transparent 70%),
+        linear-gradient(rgba(163,173,189,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(163,173,189,.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px min(5vw, 40px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(4,7,13,.8);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-text {
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .logo-text span {
+      display: block;
+      font-weight: 400;
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .08em;
+    }
+    .nav-back {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      transition: color .2s, border-color .2s;
+    }
+    .nav-back:hover { color: var(--gold-1); border-color: var(--gold-1); }
+
+    /* ─── WRAPPER ─── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 940px;
+      margin-inline: auto;
+      padding: 56px min(5vw, 40px) 96px;
+    }
+
+    /* ─── CABEÇALHO ─── */
+    .report-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .eyebrow {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold-1);
+      margin-bottom: 14px;
+    }
+    .report-title {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      text-wrap: balance;
+      background: linear-gradient(135deg, #F4D58D 0%, #D9A94E 45%, #F2F4F8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .report-sub {
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 500;
+    }
+
+    /* ─── BANNER TOTAL ─── */
+    .total-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 56px;
+    }
+    .total-item {
+      background: var(--bg-card);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .total-label {
+      font-size: .63rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .total-value {
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .total-value.gold {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold-1);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── CARDS DE MÊS ─── */
+    .months { display: flex; flex-direction: column; gap: 24px; margin-bottom: 56px; }
+
+    .month-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .month-card.rv { opacity: 1; transform: none; }
+
+    .month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+    }
+    .month-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .month-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 900; color: #04070D;
+      flex-shrink: 0;
+    }
+    .month-tag {
+      font-size: .7rem; font-weight: 600; color: var(--muted);
+      border: 1px solid rgba(163,173,189,.2); border-radius: 20px; padding: 3px 10px;
+    }
+    .month-invest { text-align: right; }
+    .invest-label { font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .invest-value {
+      font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* ─── MÉTRICAS ─── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .metric {
+      background: var(--bg-card);
+      padding: 20px 22px;
+    }
+    .metric-icon { font-size: 1.1rem; margin-bottom: 6px; line-height: 1; }
+    .metric-label { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .metric-value { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .metric-sub { font-size: .7rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+    .metric.green .metric-value { color: var(--green); }
+    .metric.gold .metric-value {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* ─── CAMPANHAS ─── */
+    .campaigns { padding: 16px 26px 20px; border-top: 1px solid var(--border); }
+    .camp-label { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .camp-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .camp-pill {
+      font-size: .72rem; font-weight: 600;
+      background: rgba(217,169,78,.08); border: 1px solid rgba(217,169,78,.2);
+      border-radius: 20px; padding: 4px 13px; color: var(--gold-2);
+    }
+
+    /* ─── BARRAS ─── */
+    .progress-section { margin-bottom: 56px; display: flex; flex-direction: column; gap: 18px; }
+    .progress-item {}
+    .progress-meta { display: flex; justify-content: space-between; font-size: .82rem; font-weight: 600; margin-bottom: 7px; }
+    .progress-meta .val { color: var(--gold-1); font-variant-numeric: tabular-nums; }
+    .progress-track { height: 6px; background: rgba(163,173,189,.1); border-radius: 3px; overflow: hidden; }
+    .progress-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+      transform-origin: left; transform: scaleX(0);
+      transition: transform .9s cubic-bezier(.22,1,.36,1);
+    }
+
+    /* ─── INSIGHTS ─── */
+    .insights {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 28px 24px; margin-bottom: 56px;
+    }
+    .insights h3 { font-size: .92rem; font-weight: 700; margin-bottom: 16px; }
+    .insight-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .insight-list li { display: flex; gap: 10px; font-size: .88rem; color: var(--muted); line-height: 1.6; }
+    .insight-list li::before { content: '▸'; color: var(--gold-1); flex-shrink: 0; padding-top: 2px; }
+    .insight-list strong { color: var(--ink); font-weight: 700; }
+
+    /* ─── FOOTER ─── */
+    .report-footer {
+      text-align: center;
+      border-top: 1px solid var(--border);
+      padding-top: 36px;
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .footer-brand {
+      font-size: 1rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .footer-brand a { text-decoration: none; color: inherit; -webkit-text-fill-color: inherit; }
+
+    /* ─── RESPONSIVO ─── */
+    @media (max-width: 520px) {
+      .total-banner { grid-template-columns: repeat(2, 1fr); }
+      .month-header { flex-direction: column; align-items: flex-start; }
+      .month-invest { text-align: left; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
+      <path d="M17 2L4 8v10c0 8.5 5.6 14.8 13 16.5C24.4 32.8 30 26.5 30 18V8L17 2z" fill="url(#lg)"/>
+      <path d="M12 17l3.5 3.5L22 12" stroke="#04070D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs>
+        <linearGradient id="lg" x1="4" y1="2" x2="30" y2="34" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F4D58D"/><stop offset="100%" stop-color="#D9A94E"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="logo-text">Elite Marketing<span>Digital</span></div>
+  </a>
+  <a href="../index.html" class="nav-back">← Voltar ao site</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- CABEÇALHO -->
+  <header class="report-header">
+    <p class="eyebrow">Relatório de Desempenho · Meta Ads</p>
+    <h1 class="report-title">Barão Express</h1>
+    <p class="report-sub">Agosto · Setembro · Outubro 2026 — Gestão Elite Marketing Digital</p>
+  </header>
+
+  <!-- TOTAIS -->
+  <div class="total-banner">
+    <div class="total-item">
+      <div class="total-label">Total Investido</div>
+      <div class="total-value gold">R$ 1.659,74</div>
+    </div>
+    <div class="total-item">
+      <div class="total-label">Pessoas Alcançadas</div>
+      <div class="total-value">335.782</div>
+    </div>
+    <div class="total-item">
+      <div class="total-label">Total Impressões</div>
+      <div class="total-value">584.212</div>
+    </div>
+    <div class="total-item">
+      <div class="total-label">Conversas WhatsApp</div>
+      <div class="total-value">21</div>
+    </div>
+  </div>
+
+  <!-- MESES -->
+  <p class="section-label">Desempenho por Mês</p>
+  <div class="months">
+
+    <!-- AGOSTO -->
+    <div class="month-card" data-delay="0">
+      <div class="month-header">
+        <div class="month-name">
+          <div class="month-num">01</div>
+          Agosto 2026
+        </div>
+        <span class="month-tag">Início · 25 a 31/08</span>
+        <div class="month-invest">
+          <div class="invest-label">Investido</div>
+          <div class="invest-value">R$ 230,97</div>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric gold">
+          <div class="metric-icon">👁️</div>
+          <div class="metric-label">Impressões</div>
+          <div class="metric-value">98.681</div>
+          <div class="metric-sub">visualizações totais</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-label">Alcance</div>
+          <div class="metric-value">66.486</div>
+          <div class="metric-sub">pessoas únicas</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">💰</div>
+          <div class="metric-label">CPM Médio</div>
+          <div class="metric-value">R$ 2,34</div>
+          <div class="metric-sub">custo por mil imp.</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">📅</div>
+          <div class="metric-label">Período</div>
+          <div class="metric-value">7 dias</div>
+          <div class="metric-sub">início das campanhas</div>
+        </div>
+      </div>
+      <div class="campaigns">
+        <div class="camp-label">Campanhas ativas</div>
+        <div class="camp-list">
+          <span class="camp-pill">REC – Adega ou Distribuidora</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETEMBRO -->
+    <div class="month-card" data-delay="150">
+      <div class="month-header">
+        <div class="month-name">
+          <div class="month-num">02</div>
+          Setembro 2026
+        </div>
+        <span class="month-tag">Mês completo</span>
+        <div class="month-invest">
+          <div class="invest-label">Investido</div>
+          <div class="invest-value">R$ 1.086,78</div>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric gold">
+          <div class="metric-icon">👁️</div>
+          <div class="metric-label">Impressões</div>
+          <div class="metric-value">383.863</div>
+          <div class="metric-sub">+289% vs agosto</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-label">Alcance</div>
+          <div class="metric-value">214.564</div>
+          <div class="metric-sub">pessoas únicas</div>
+        </div>
+        <div class="metric green">
+          <div class="metric-icon">💬</div>
+          <div class="metric-label">Conv. WhatsApp</div>
+          <div class="metric-value">7</div>
+          <div class="metric-sub">1ª conversão registrada</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">💰</div>
+          <div class="metric-label">Custo/Conversa</div>
+          <div class="metric-value">R$ 20,66</div>
+          <div class="metric-sub">por contato gerado</div>
+        </div>
+      </div>
+      <div class="campaigns">
+        <div class="camp-label">Campanhas ativas</div>
+        <div class="camp-list">
+          <span class="camp-pill">REC – Adega</span>
+          <span class="camp-pill">REC – Cervejas</span>
+          <span class="camp-pill">TOPO</span>
+          <span class="camp-pill">MEIO</span>
+          <span class="camp-pill">FUNDO</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTUBRO -->
+    <div class="month-card" data-delay="300">
+      <div class="month-header">
+        <div class="month-name">
+          <div class="month-num">03</div>
+          Outubro 2026
+        </div>
+        <span class="month-tag">01 a 09/10 · parcial</span>
+        <div class="month-invest">
+          <div class="invest-label">Investido</div>
+          <div class="invest-value">R$ 341,99</div>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric gold">
+          <div class="metric-icon">👁️</div>
+          <div class="metric-label">Impressões</div>
+          <div class="metric-value">101.668</div>
+          <div class="metric-sub">9 dias de veiculação</div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-label">Alcance</div>
+          <div class="metric-value">54.732</div>
+          <div class="metric-sub">pessoas únicas</div>
+        </div>
+        <div class="metric green">
+          <div class="metric-icon">💬</div>
+          <div class="metric-label">Conv. WhatsApp</div>
+          <div class="metric-value">14</div>
+          <div class="metric-sub">+100% vs setembro</div>
+        </div>
+        <div class="metric green">
+          <div class="metric-icon">📉</div>
+          <div class="metric-label">Custo/Conversa</div>
+          <div class="metric-value">R$ 10,42</div>
+          <div class="metric-sub">−50% vs setembro ✓</div>
+        </div>
+      </div>
+      <div class="campaigns">
+        <div class="camp-label">Funil Completo ativo</div>
+        <div class="camp-list">
+          <span class="camp-pill">TOPO</span>
+          <span class="camp-pill">MEIO</span>
+          <span class="camp-pill">FUNDO</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EVOLUÇÃO INVESTIMENTO -->
+  <p class="section-label">Evolução do Investimento</p>
+  <div class="progress-section">
+    <div class="progress-item">
+      <div class="progress-meta">
+        <span>Agosto 2026</span>
+        <span class="val">R$ 230,97</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" data-w=".139"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-meta">
+        <span>Setembro 2026</span>
+        <span class="val">R$ 1.086,78</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" data-w=".655"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-meta">
+        <span>Outubro 2026 <em style="font-weight:500;color:var(--muted);font-size:.8em">(até 09/10)</em></span>
+        <span class="val">R$ 341,99</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" data-w=".206"></div></div>
+    </div>
+  </div>
+
+  <!-- ANÁLISE -->
+  <p class="section-label">Análise de Performance</p>
+  <div class="insights">
+    <h3>Pontos de destaque</h3>
+    <ul class="insight-list">
+      <li>Em apenas <strong>7 dias</strong>, agosto já entregou <strong>66 mil pessoas alcançadas</strong> com R$ 230 investidos — CPM de R$ 2,34, excelente para o segmento.</li>
+      <li>Setembro marcou a <strong>ativação do funil completo</strong> (Topo → Meio → Fundo) e os primeiros contatos via WhatsApp.</li>
+      <li>Outubro demonstra maturidade: o <strong>custo por conversa caiu 50%</strong> (de R$ 20,66 → R$ 10,42) e as conversas dobraram em menos de 10 dias.</li>
+      <li>A tendência aponta para outubro ser o <strong>melhor mês em ROI</strong> caso o ritmo se mantenha até o fim do mês.</li>
+      <li>Total de <strong>335.782 pessoas únicas</strong> impactadas nos 3 meses de campanha.</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="report-footer">
+    <div class="footer-brand"><a href="../index.html">Elite Marketing Digital</a></div>
+    <p>Relatório gerado em outubro de 2026 · Dados extraídos diretamente do <strong style="color:var(--gold-1)">Meta Ads Manager</strong></p>
+    <p>Dúvidas? Fale com seu gestor de tráfego.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Reveal cards on scroll
+  const cards = document.querySelectorAll('.month-card');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const d = parseInt(e.target.dataset.delay || 0);
+        setTimeout(() => e.target.classList.add('rv'), d);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  cards.forEach(c => io.observe(c));
+
+  // Animate cards already visible
+  setTimeout(() => cards.forEach(c => {
+    if (c.getBoundingClientRect().top < window.innerHeight)
+      setTimeout(() => c.classList.add('rv'), parseInt(c.dataset.delay || 0));
+  }), 80);
+
+  // Progress bars
+  const fills = document.querySelectorAll('.progress-fill');
+  const po = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.transform = `scaleX(${e.target.dataset.w})`;
+        po.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  fills.forEach(f => po.observe(f));
+  setTimeout(() => fills.forEach(f => {
+    if (f.getBoundingClientRect().top < window.innerHeight)
+      f.style.transform = `scaleX(${f.dataset.w})`;
+  }), 200);
+</script>
+</body>
+</html>
