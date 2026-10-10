@@ -77,19 +77,13 @@
       text-decoration: none;
       color: inherit;
     }
-    .logo-text {
-      font-size: .82rem;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      line-height: 1.1;
-    }
-    .logo-text span {
+    .nav-logo .esc { width: 34px; }
+    .nav-logo .mk { width: 118px; }
+    .header-logo {
       display: block;
-      font-weight: 400;
-      font-size: .65rem;
-      color: var(--muted);
-      letter-spacing: .08em;
+      width: 96px;
+      margin: 0 auto 22px;
+      filter: drop-shadow(0 8px 28px rgba(59,130,246,.28));
     }
     .nav-back {
       font-size: .75rem;
@@ -334,16 +328,8 @@
 <!-- NAV -->
 <nav class="nav">
   <a href="../index.html" class="nav-logo">
-    <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
-      <path d="M17 2L4 8v10c0 8.5 5.6 14.8 13 16.5C24.4 32.8 30 26.5 30 18V8L17 2z" fill="url(#lg)"/>
-      <path d="M12 17l3.5 3.5L22 12" stroke="#04070D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs>
-        <linearGradient id="lg" x1="4" y1="2" x2="30" y2="34" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#F4D58D"/><stop offset="100%" stop-color="#D9A94E"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    <div class="logo-text">Elite Marketing<span>Digital</span></div>
+    <img class="esc" src="/Proposta-Elitemkt/img/escudo.png" alt="">
+    <img class="mk" src="/Proposta-Elitemkt/img/marca.png" alt="Elite Marketing Digital">
   </a>
   <a href="../index.html" class="nav-back">← Voltar ao site</a>
 </nav>
@@ -352,6 +338,7 @@
 
   <!-- CABEÇALHO -->
   <header class="report-header">
+    <img class="header-logo" src="/Proposta-Elitemkt/img/escudo.png" alt="Elite Marketing Digital">
     <p class="eyebrow">Relatório de Desempenho · Meta Ads</p>
     <h1 class="report-title">Barão Express</h1>
     <p class="report-sub">Agosto · Setembro · Outubro 2026 — Gestão Elite Marketing Digital</p>
