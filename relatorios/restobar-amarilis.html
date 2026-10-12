@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Restobar Amarilis · Relatório de Mídia Paga</title>
+<link rel="icon" href="/SiteElite/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/SiteElite/favicon-32.png">
+<link rel="apple-touch-icon" href="/SiteElite/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --bg: #04070D;
+    --bg-2: #0A111E;
+    --bg-card: #0D1626;
+    --bg-card-2: #111d30;
+    --ink: #F2F4F8;
+    --muted: #A3ADBD;
+    --gold-1: #D9A94E;
+    --gold-2: #F4D58D;
+    --blue-1: #3B82F6;
+    --blue-2: #60A5FA;
+    --green: #22C55E;
+    --red: #ef4444;
+    --border: rgba(255,255,255,0.07);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Montserrat', 'Segoe UI', Helvetica Neue, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-inline: 20px;
+    padding-block: 32px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    transition: color .2s;
+  }
+  .nav a:hover { color: var(--gold-1); }
+  .nav-sep { color: var(--border); }
+  .nav .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .nav-logo .esc { width: 34px; }
+  .nav-logo .mk { width: 118px; }
+  .header-logo {
+    display: block;
+    width: 96px;
+    margin-bottom: 22px;
+    filter: drop-shadow(0 8px 28px rgba(59,130,246,.28));
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 40px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    background: rgba(217,169,78,.1);
+    border: 1px solid rgba(217,169,78,.25);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 16px;
+  }
+  .badge::before { content: '●'; font-size: 7px; }
+  h1 {
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h1 span { color: var(--gold-1); }
+  .subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* TOTALS BANNER */
+  .totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .total-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .5s, transform .5s;
+  }
+  .total-card.visible { opacity: 1; transform: none; }
+  .total-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(217,169,78,.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .total-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .total-value {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .total-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* MONTHLY CARDS */
+  .months { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+  .month-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .month-card.visible { opacity: 1; transform: none; }
+  .month-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .month-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .month-invest {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .month-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    background: var(--bg-2);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-value.accent { color: var(--blue-2); }
+  .metric-value.green { color: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { margin-top: 4px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 5px;
+    background: rgba(255,255,255,.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+    width: 0;
+    transition: width 1s ease;
+  }
+  .progress-fill.blue { background: linear-gradient(90deg, var(--blue-1), var(--blue-2)); }
+
+  /* CAMPAIGNS TABLE */
+  .camp-list { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+  .camp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255,255,255,.03);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+  .camp-name { color: var(--muted); font-weight: 600; flex: 1; min-width: 120px; }
+  .camp-spend { color: var(--gold-1); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* INSIGHTS */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .insight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s, transform .5s;
+  }
+  .insight-card.visible { opacity: 1; transform: none; }
+  .insight-icon { font-size: 22px; margin-bottom: 10px; }
+  .insight-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 6px;
+  }
+  .insight-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-logo { font-size: 14px; font-weight: 800; letter-spacing: .06em; color: var(--gold-1); }
+  .footer-meta { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* PARTIAL BADGE */
+  .partial {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: rgba(59,130,246,.15);
+    border: 1px solid rgba(59,130,246,.3);
+    color: var(--blue-2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 500px) {
+    body { padding-inline: 16px; padding-block: 24px; }
+    .month-invest { font-size: 18px; }
+    .total-value { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/SiteElite/" class="nav-logo" aria-label="Elite Marketing Digital">
+    <img class="esc" src="/Proposta-Elitemkt/img/escudo.png" alt="">
+    <img class="mk" src="/Proposta-Elitemkt/img/marca.png" alt="Elite Marketing Digital">
+  </a>
+  <a href="/SiteElite/">← Voltar ao site</a>
+</nav>
+
+<!-- HEADER -->
+<header class="header">
+  <img class="header-logo" src="/Proposta-Elitemkt/img/escudo.png" alt="Elite Marketing Digital">
+  <div class="badge">Relatório de Performance</div>
+  <h1>Restobar <span>Amarilis</span></h1>
+  <p class="subtitle">Tráfego pago Meta Ads · 10 de setembro – 12 de outubro de 2026 · Elaborado por Elite Marketing Digital</p>
+</header>
+
+<!-- TOTALS -->
+<div class="totals">
+  <div class="total-card" data-animate>
+    <div class="total-label">Total Investido</div>
+    <div class="total-value">R$2.196</div>
+    <div class="total-sub">desde o início, em 10/09</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Impressões</div>
+    <div class="total-value">532K</div>
+    <div class="total-sub">exibições dos anúncios</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Alcance</div>
+    <div class="total-value">133K</div>
+    <div class="total-sub">contas alcançadas</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Conversas</div>
+    <div class="total-value">85</div>
+    <div class="total-sub">iniciadas por mensagem</div>
+  </div>
+</div>
+
+<!-- MONTHLY BREAKDOWN -->
+<div class="section-title">Histórico mensal detalhado</div>
+<div class="months">
+
+  <!-- SETEMBRO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Setembro 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">10 a 30 de setembro · Início das campanhas</div>
+      </div>
+      <div class="month-invest">R$1.317,74</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">326,1K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">93,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">2.110</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$4,04</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">55</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$1.317,74</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="100"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">TOPO - 3 ADS · alcance de 85,2K</span><span class="camp-spend">R$521,12</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha - Delivery · 26 conversas</span><span class="camp-spend">R$257,06</span></div>
+      <div class="camp-row"><span class="camp-name">Fundo - 3 ADS · 29 conversas</span><span class="camp-spend">R$240,26</span></div>
+      <div class="camp-row"><span class="camp-name">Meio - 2 ADS · 5.257 vídeos assistidos</span><span class="camp-spend">R$213,25</span></div>
+      <div class="camp-row"><span class="camp-name">REC - Show · alcance de 19,1K</span><span class="camp-spend">R$61,95</span></div>
+      <div class="camp-row"><span class="camp-name">Tráfego Perfil · 84 visitas ao perfil</span><span class="camp-spend">R$24,10</span></div>
+    </div>
+  </div>
+
+  <!-- OUTUBRO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Outubro 2026 <span class="partial">Parcial</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">01 a 12 de outubro · mês em andamento</div>
+      </div>
+      <div class="month-invest">R$878,53</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">206,3K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">83,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">1.278</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$4,26</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">30</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal (parcial)</span><span>R$878,53</span></div>
+      <div class="progress-track"><div class="progress-fill blue" data-pct="67"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Fundo - 3 ADS · 30 conversas</span><span class="camp-spend">R$389,99</span></div>
+      <div class="camp-row"><span class="camp-name">Meio - 2 ADS · 12.402 vídeos assistidos</span><span class="camp-spend">R$291,06</span></div>
+      <div class="camp-row"><span class="camp-name">TOPO - 3 ADS · alcance de 54,8K</span><span class="camp-spend">R$197,48</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INSIGHTS -->
+<div class="section-title">Insights & observações estratégicas</div>
+<div class="insights-grid">
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">🎯</div>
+    <div class="insight-title">Funil completo em duas semanas</div>
+    <div class="insight-text">A conta começou em 10/09 com o Topo e, até 24/09, já operava com Topo, Meio e Fundo ao mesmo tempo. Hoje são essas três campanhas que seguem ativas.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">💬</div>
+    <div class="insight-title">85 conversas iniciadas</div>
+    <div class="insight-text">As campanhas de mensagem (Delivery e Fundo) geraram 85 conversas com R$887,31 investidos, um custo médio de R$10,44 por conversa.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">🎬</div>
+    <div class="insight-title">17,6K vídeos assistidos</div>
+    <div class="insight-text">A campanha de Meio somou 17.659 reproduções completas (ThruPlay). O custo por reprodução caiu de R$0,04 em setembro para R$0,02 em outubro.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">📊</div>
+    <div class="insight-title">Ponto de atenção: custo por conversa</div>
+    <div class="insight-text">No Fundo, o custo por conversa subiu de R$8,28 em setembro para R$13,00 em outubro, com o investimento maior. É o indicador a acompanhar no restante do mês.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ELITE MARKETING DIGITAL</div>
+  <div class="footer-meta">
+    Relatório gerado em 12 de outubro de 2026<br>
+    Dados extraídos diretamente do Meta Ads Manager
+  </div>
+</footer>
+
+<script>
+  // IntersectionObserver for reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // Animate progress bars inside
+          entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+            const pct = bar.dataset.pct;
+            setTimeout(() => { bar.style.width = pct + '%'; }, 200);
+          });
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
