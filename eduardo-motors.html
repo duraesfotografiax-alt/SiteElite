@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Eduardo Motors · Relatório de Mídia Paga</title>
+<link rel="icon" href="/SiteElite/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/SiteElite/favicon-32.png">
+<link rel="apple-touch-icon" href="/SiteElite/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --bg: #04070D;
+    --bg-2: #0A111E;
+    --bg-card: #0D1626;
+    --bg-card-2: #111d30;
+    --ink: #F2F4F8;
+    --muted: #A3ADBD;
+    --gold-1: #D9A94E;
+    --gold-2: #F4D58D;
+    --blue-1: #3B82F6;
+    --blue-2: #60A5FA;
+    --green: #22C55E;
+    --red: #ef4444;
+    --border: rgba(255,255,255,0.07);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Montserrat', 'Segoe UI', Helvetica Neue, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-inline: 20px;
+    padding-block: 32px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    transition: color .2s;
+  }
+  .nav a:hover { color: var(--gold-1); }
+  .nav-sep { color: var(--border); }
+  .nav .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .nav-logo .esc { width: 34px; }
+  .nav-logo .mk { width: 118px; }
+  .header-logo {
+    display: block;
+    width: 96px;
+    margin-bottom: 22px;
+    filter: drop-shadow(0 8px 28px rgba(59,130,246,.28));
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 40px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    background: rgba(217,169,78,.1);
+    border: 1px solid rgba(217,169,78,.25);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 16px;
+  }
+  .badge::before { content: '●'; font-size: 7px; }
+  h1 {
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h1 span { color: var(--gold-1); }
+  .subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* TOTALS BANNER */
+  .totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .total-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .5s, transform .5s;
+  }
+  .total-card.visible { opacity: 1; transform: none; }
+  .total-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(217,169,78,.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .total-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .total-value {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .total-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* MONTHLY CARDS */
+  .months { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+  .month-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .month-card.visible { opacity: 1; transform: none; }
+  .month-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .month-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .month-invest {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .month-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    background: var(--bg-2);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-value.accent { color: var(--blue-2); }
+  .metric-value.green { color: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { margin-top: 4px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 5px;
+    background: rgba(255,255,255,.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+    width: 0;
+    transition: width 1s ease;
+  }
+  .progress-fill.blue { background: linear-gradient(90deg, var(--blue-1), var(--blue-2)); }
+
+  /* CAMPAIGNS TABLE */
+  .camp-list { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+  .camp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255,255,255,.03);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+  .camp-name { color: var(--muted); font-weight: 600; flex: 1; min-width: 120px; }
+  .camp-spend { color: var(--gold-1); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* INSIGHTS */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .insight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s, transform .5s;
+  }
+  .insight-card.visible { opacity: 1; transform: none; }
+  .insight-icon { font-size: 22px; margin-bottom: 10px; }
+  .insight-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 6px;
+  }
+  .insight-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-logo { font-size: 14px; font-weight: 800; letter-spacing: .06em; color: var(--gold-1); }
+  .footer-meta { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* PARTIAL BADGE */
+  .partial {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: rgba(59,130,246,.15);
+    border: 1px solid rgba(59,130,246,.3);
+    color: var(--blue-2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 500px) {
+    body { padding-inline: 16px; padding-block: 24px; }
+    .month-invest { font-size: 18px; }
+    .total-value { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/SiteElite/" class="nav-logo" aria-label="Elite Marketing Digital">
+    <img class="esc" src="/Proposta-Elitemkt/img/escudo.png" alt="">
+    <img class="mk" src="/Proposta-Elitemkt/img/marca.png" alt="Elite Marketing Digital">
+  </a>
+  <a href="/SiteElite/">← Voltar ao site</a>
+</nav>
+
+<!-- HEADER -->
+<header class="header">
+  <img class="header-logo" src="/Proposta-Elitemkt/img/escudo.png" alt="Elite Marketing Digital">
+  <div class="badge">Relatório de Performance</div>
+  <h1>Eduardo <span>Motors</span></h1>
+  <p class="subtitle">Tráfego pago Meta Ads · Junho – Outubro 2026 · Elaborado por Elite Marketing Digital</p>
+</header>
+
+<!-- TOTALS -->
+<div class="totals">
+  <div class="total-card" data-animate>
+    <div class="total-label">Total Investido</div>
+    <div class="total-value">R$6.331</div>
+    <div class="total-sub">em 5 meses de campanha</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Impressões</div>
+    <div class="total-value">1,85M</div>
+    <div class="total-sub">exibições dos anúncios</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Alcance</div>
+    <div class="total-value">823K</div>
+    <div class="total-sub">contas alcançadas</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Conversas</div>
+    <div class="total-value">451</div>
+    <div class="total-sub">iniciadas por mensagem</div>
+  </div>
+</div>
+
+<!-- MONTHLY BREAKDOWN -->
+<div class="section-title">Histórico mensal detalhado</div>
+<div class="months">
+
+  <!-- JUNHO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Junho 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Início das campanhas · reconhecimento + vendas por veículo</div>
+      </div>
+      <div class="month-invest">R$966,33</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">177,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">110,8K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">1.571</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$5,44</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">92</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$966,33</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="52"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Campanha 1 - Reconhecimento · alcance de 96,1K</span><span class="camp-spend">R$188,69</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 2 - Engajamento Leads · 35 conversas</span><span class="camp-spend">R$174,38</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Fit2 · 16 conversas</span><span class="camp-spend">R$112,05</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Vendas - Tracker · 8 conversas</span><span class="camp-spend">R$109,55</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - FOx vermelho · 4 conversas</span><span class="camp-spend">R$109,44</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Vendas - FORD KA · 12 conversas</span><span class="camp-spend">R$108,18</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Creta - Tom · 3 conversas</span><span class="camp-spend">R$54,97</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Kicks - Gilson · 10 conversas</span><span class="camp-spend">R$54,93</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Fox RED - Jaqueline · 4 conversas</span><span class="camp-spend">R$54,14</span></div>
+    </div>
+  </div>
+
+  <!-- JULHO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Julho 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Mês com mais conversas · 15 campanhas de venda no ar</div>
+      </div>
+      <div class="month-invest">R$1.654,83</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">536,5K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">295,4K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">2.963</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value green">R$3,08</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">136</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$1.654,83</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="90"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Campanha de Reconhecimento · alcance de 213,1K</span><span class="camp-spend">R$417,21</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Recon - Expor Estoque · alcance de 89,5K</span><span class="camp-spend">R$162,83</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Kicks - Gilson · 19 conversas</span><span class="camp-spend">R$122,28</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Creta - Tom · 12 conversas</span><span class="camp-spend">R$103,04</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Saveiro - jauqeline · 5 conversas</span><span class="camp-spend">R$89,72</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Mobi Prata 2022 · 7 conversas</span><span class="camp-spend">R$80,63</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Fox 2013 · 14 conversas</span><span class="camp-spend">R$80,38</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Onix 2020 · 13 conversas</span><span class="camp-spend">R$79,27</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda Gilson - Duster Dynamique 1.6 2016 · 9 conversas</span><span class="camp-spend">R$71,05</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Fit novo - Gilson · 2 conversas</span><span class="camp-spend">R$70,21</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda Tom - Nissan Kicks SV 2020 · 14 conversas</span><span class="camp-spend">R$69,55</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Duster 2016 · 8 conversas</span><span class="camp-spend">R$61,91</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Onix 2016 · 13 conversas</span><span class="camp-spend">R$61,24</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Dois Yaris · 4 conversas</span><span class="camp-spend">R$61,20</span></div>
+      <div class="camp-row"><span class="camp-name">Cam - 3 carros — Cópia · 8 conversas</span><span class="camp-spend">R$60,78</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Venda - Fox RED - Jaqueline · 5 conversas</span><span class="camp-spend">R$49,69</span></div>
+      <div class="camp-row"><span class="camp-name">Cam - 3 carros · 3 conversas</span><span class="camp-spend">R$9,53</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 1 - Reconhecimento · alcance de 2,8K</span><span class="camp-spend">R$4,31</span></div>
+    </div>
+  </div>
+
+  <!-- AGOSTO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Agosto 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Anúncios por veículo em vídeo e fotos</div>
+      </div>
+      <div class="month-invest">R$1.338,91</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">316,2K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">157,7K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">3.025</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$4,23</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">108</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$1.338,91</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="73"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Reconhecimento UP e WR-V · alcance de 107,1K</span><span class="camp-spend">R$241,24</span></div>
+      <div class="camp-row"><span class="camp-name">WR-V [Video] · 11 conversas</span><span class="camp-spend">R$132,28</span></div>
+      <div class="camp-row"><span class="camp-name">UP [Vídeo] · 9 conversas</span><span class="camp-spend">R$111,02</span></div>
+      <div class="camp-row"><span class="camp-name">Post: C4 Cactus Feel 1.6 Automático 2020 · 11 conversas</span><span class="camp-spend">R$103,29</span></div>
+      <div class="camp-row"><span class="camp-name">Civic Branco [Fotos] · 11 conversas</span><span class="camp-spend">R$101,89</span></div>
+      <div class="camp-row"><span class="camp-name">Logan [Fotos] · 8 conversas</span><span class="camp-spend">R$101,69</span></div>
+      <div class="camp-row"><span class="camp-name">CAM - Honda civic · 15 conversas</span><span class="camp-spend">R$92,88</span></div>
+      <div class="camp-row"><span class="camp-name">CAM - Honda HRV · 7 conversas</span><span class="camp-spend">R$89,96</span></div>
+      <div class="camp-row"><span class="camp-name">CAM - Saveiro · 5 conversas</span><span class="camp-spend">R$80,72</span></div>
+      <div class="camp-row"><span class="camp-name">UP - [Vídeo] · 10 conversas</span><span class="camp-spend">R$69,03</span></div>
+      <div class="camp-row"><span class="camp-name">Voyage · 15 conversas</span><span class="camp-spend">R$68,94</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha Recon - Expor Estoque · alcance de 42,8K</span><span class="camp-spend">R$63,99</span></div>
+      <div class="camp-row"><span class="camp-name">Post: Honda Civic LXS Automático 2015 · 2 conversas</span><span class="camp-spend">R$43,80</span></div>
+      <div class="camp-row"><span class="camp-name">Cam - 3 carros — Cópia · 4 conversas</span><span class="camp-spend">R$38,18</span></div>
+    </div>
+  </div>
+
+  <!-- SETEMBRO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Setembro 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">📈 Maior investimento e maior alcance · Setembro da Virada + funil</div>
+      </div>
+      <div class="month-invest">R$1.844,84</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">693,4K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">430,7K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">2.503</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value green">R$2,66</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">75</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$1.844,84</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="100"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Setembro da Virada - Eduardo Motors · alcance de 337,5K</span><span class="camp-spend">R$753,36</span></div>
+      <div class="camp-row"><span class="camp-name">Fundo - 3 ADS · 55 conversas</span><span class="camp-spend">R$300,40</span></div>
+      <div class="camp-row"><span class="camp-name">Vendas - Setembro da virada · 20 conversas</span><span class="camp-spend">R$287,96</span></div>
+      <div class="camp-row"><span class="camp-name">Quem Somos - Eduardo Motors — Cópia · alcance de 79,9K</span><span class="camp-spend">R$138,45</span></div>
+      <div class="camp-row"><span class="camp-name">setembro da virada - Eduardo Motors · 788 visitas ao perfil</span><span class="camp-spend">R$137,97</span></div>
+      <div class="camp-row"><span class="camp-name">Topo - 5 ADS · alcance de 55,7K</span><span class="camp-spend">R$128,52</span></div>
+      <div class="camp-row"><span class="camp-name">Meio - 2 ADS · 4.343 vídeos assistidos</span><span class="camp-spend">R$98,18</span></div>
+    </div>
+  </div>
+
+  <!-- OUTUBRO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Outubro 2026 <span class="partial">Parcial</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">01 a 12 de outubro · mês em andamento</div>
+      </div>
+      <div class="month-invest">R$526,46</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">128,9K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">101,7K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">1.034</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$4,08</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">40</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal (parcial)</span><span>R$526,46</span></div>
+      <div class="progress-track"><div class="progress-fill blue" data-pct="29"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Fundo - 3 ADS · 40 conversas</span><span class="camp-spend">R$298,85</span></div>
+      <div class="camp-row"><span class="camp-name">Meio - 2 ADS · 5.625 vídeos assistidos</span><span class="camp-spend">R$116,69</span></div>
+      <div class="camp-row"><span class="camp-name">Topo - 5 ADS · alcance de 69,4K</span><span class="camp-spend">R$110,92</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INSIGHTS -->
+<div class="section-title">Insights & observações estratégicas</div>
+<div class="insights-grid">
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">💬</div>
+    <div class="insight-title">451 conversas iniciadas</div>
+    <div class="insight-text">As campanhas de mensagem somaram 451 conversas com R$3.769,01 investidos, um custo médio de R$8,36 por conversa. Julho foi o mês com mais conversas: 136.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">🚀</div>
+    <div class="insight-title">Setembro: maior alcance</div>
+    <div class="insight-text">Com a campanha Setembro da Virada, o mês alcançou 430,7 mil contas e teve o menor CPM do período (R$2,66). Foi também o mês de maior investimento.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">🎯</div>
+    <div class="insight-title">Do anúncio por carro ao funil</div>
+    <div class="insight-text">De junho a agosto, a conta rodou uma campanha por veículo. A partir de setembro passou a operar com Topo, Meio e Fundo, que são as três campanhas ativas hoje.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">📊</div>
+    <div class="insight-title">Fundo: 95 conversas</div>
+    <div class="insight-text">A campanha Fundo - 3 ADS gerou 55 conversas em setembro (R$5,46 cada) e 40 em outubro até o dia 12 (R$7,47 cada). O custo por conversa do mês segue abaixo da média do período.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ELITE MARKETING DIGITAL</div>
+  <div class="footer-meta">
+    Relatório gerado em 12 de outubro de 2026<br>
+    Dados extraídos diretamente do Meta Ads Manager
+  </div>
+</footer>
+
+<script>
+  // IntersectionObserver for reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // Animate progress bars inside
+          entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+            const pct = bar.dataset.pct;
+            setTimeout(() => { bar.style.width = pct + '%'; }, 200);
+          });
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
