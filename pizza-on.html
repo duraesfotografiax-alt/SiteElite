@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pizza ON · Relatório de Mídia Paga</title>
+<link rel="icon" href="/SiteElite/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/SiteElite/favicon-32.png">
+<link rel="apple-touch-icon" href="/SiteElite/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --bg: #04070D;
+    --bg-2: #0A111E;
+    --bg-card: #0D1626;
+    --bg-card-2: #111d30;
+    --ink: #F2F4F8;
+    --muted: #A3ADBD;
+    --gold-1: #D9A94E;
+    --gold-2: #F4D58D;
+    --blue-1: #3B82F6;
+    --blue-2: #60A5FA;
+    --green: #22C55E;
+    --red: #ef4444;
+    --border: rgba(255,255,255,0.07);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Montserrat', 'Segoe UI', Helvetica Neue, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-inline: 20px;
+    padding-block: 32px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    transition: color .2s;
+  }
+  .nav a:hover { color: var(--gold-1); }
+  .nav-sep { color: var(--border); }
+  .nav .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .nav-logo .esc { width: 34px; }
+  .nav-logo .mk { width: 118px; }
+  .header-logo {
+    display: block;
+    width: 96px;
+    margin-bottom: 22px;
+    filter: drop-shadow(0 8px 28px rgba(59,130,246,.28));
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 40px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    background: rgba(217,169,78,.1);
+    border: 1px solid rgba(217,169,78,.25);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 16px;
+  }
+  .badge::before { content: '●'; font-size: 7px; }
+  h1 {
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h1 span { color: var(--gold-1); }
+  .subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* TOTALS BANNER */
+  .totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .total-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .5s, transform .5s;
+  }
+  .total-card.visible { opacity: 1; transform: none; }
+  .total-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(217,169,78,.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .total-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .total-value {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .total-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* MONTHLY CARDS */
+  .months { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+  .month-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .month-card.visible { opacity: 1; transform: none; }
+  .month-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .month-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .month-invest {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .month-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    background: var(--bg-2);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-value.accent { color: var(--blue-2); }
+  .metric-value.green { color: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { margin-top: 4px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 5px;
+    background: rgba(255,255,255,.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+    width: 0;
+    transition: width 1s ease;
+  }
+  .progress-fill.blue { background: linear-gradient(90deg, var(--blue-1), var(--blue-2)); }
+
+  /* CAMPAIGNS TABLE */
+  .camp-list { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+  .camp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255,255,255,.03);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+  .camp-name { color: var(--muted); font-weight: 600; flex: 1; min-width: 120px; }
+  .camp-spend { color: var(--gold-1); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* INSIGHTS */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .insight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s, transform .5s;
+  }
+  .insight-card.visible { opacity: 1; transform: none; }
+  .insight-icon { font-size: 22px; margin-bottom: 10px; }
+  .insight-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gold-1);
+    margin-bottom: 6px;
+  }
+  .insight-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-logo { font-size: 14px; font-weight: 800; letter-spacing: .06em; color: var(--gold-1); }
+  .footer-meta { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* PARTIAL BADGE */
+  .partial {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: rgba(59,130,246,.15);
+    border: 1px solid rgba(59,130,246,.3);
+    color: var(--blue-2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 500px) {
+    body { padding-inline: 16px; padding-block: 24px; }
+    .month-invest { font-size: 18px; }
+    .total-value { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/SiteElite/" class="nav-logo" aria-label="Elite Marketing Digital">
+    <img class="esc" src="/Proposta-Elitemkt/img/escudo.png" alt="">
+    <img class="mk" src="/Proposta-Elitemkt/img/marca.png" alt="Elite Marketing Digital">
+  </a>
+  <a href="/SiteElite/">← Voltar ao site</a>
+</nav>
+
+<!-- HEADER -->
+<header class="header">
+  <img class="header-logo" src="/Proposta-Elitemkt/img/escudo.png" alt="Elite Marketing Digital">
+  <div class="badge">Relatório de Performance</div>
+  <h1>Pizza <span>ON</span></h1>
+  <p class="subtitle">Tráfego pago Meta Ads · Maio – Setembro 2026 · Elaborado por Elite Marketing Digital</p>
+</header>
+
+<!-- TOTALS -->
+<div class="totals">
+  <div class="total-card" data-animate>
+    <div class="total-label">Total Investido</div>
+    <div class="total-value">R$17.631</div>
+    <div class="total-sub">em 5 meses de campanha</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Impressões</div>
+    <div class="total-value">3,39M</div>
+    <div class="total-sub">exibições dos anúncios</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Alcance</div>
+    <div class="total-value">478K</div>
+    <div class="total-sub">contas alcançadas</div>
+  </div>
+  <div class="total-card" data-animate>
+    <div class="total-label">Conversas</div>
+    <div class="total-value">3.223</div>
+    <div class="total-sub">iniciadas por mensagem</div>
+  </div>
+</div>
+
+<!-- MONTHLY BREAKDOWN -->
+<div class="section-title">Histórico mensal detalhado</div>
+<div class="months">
+
+  <!-- MAIO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Maio 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">📈 Maior alcance e mais conversas do período</div>
+      </div>
+      <div class="month-invest">R$4.073,34</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">1,05M</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">337,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">10.683</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value green">R$3,87</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">1.251</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$4.073,34</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="94"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Campanha 3 — Promoções semanais · 536 conversas</span><span class="camp-spend">R$2.040,92</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 2 — Delivery e Salão (conversão) · 623 conversas</span><span class="camp-spend">R$1.032,01</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 1 — Artur nogueira Pizza On · alcance de 289,3K</span><span class="camp-spend">R$858,28</span></div>
+      <div class="camp-row"><span class="camp-name">campanha de Vendas - Combo/Video Terça&amp;Quarta · 30 conversas</span><span class="camp-spend">R$48,76</span></div>
+      <div class="camp-row"><span class="camp-name">campanha de Engajamento - Combo/Video Terça&amp;Quarta · 38 conversas</span><span class="camp-spend">R$47,29</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha de Vendas - Combo Terça&amp;Quarta · 24 conversas</span><span class="camp-spend">R$46,08</span></div>
+    </div>
+  </div>
+
+  <!-- JUNHO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Junho 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Três campanhas principais · foco em conversas</div>
+      </div>
+      <div class="month-invest">R$3.393,24</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">538,5K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">73,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">5.417</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$6,30</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">516</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$3.393,24</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="78"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Campanha 3 — Promoções semanais · 291 conversas</span><span class="camp-spend">R$1.824,31</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 2 — Delivery e Salão (conversão) · 225 conversas</span><span class="camp-spend">R$1.323,92</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 1 — Artur nogueira Pizza On · alcance de 40,8K</span><span class="camp-spend">R$245,01</span></div>
+    </div>
+  </div>
+
+  <!-- JULHO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Julho 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Maior investimento · entrada de Cosmópolis e reconhecimento do combo</div>
+      </div>
+      <div class="month-invest">R$4.343,38</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">971,7K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">160,2K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">4.972</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value green">R$4,47</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">287</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$4.343,38</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="100"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">Engajamento · 198 conversas</span><span class="camp-spend">R$1.715,82</span></div>
+      <div class="camp-row"><span class="camp-name">Reconhecimento do Combo · alcance de 101,1K</span><span class="camp-spend">R$1.017,13</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 3 — Combo Terça e Quarta · 61 conversas</span><span class="camp-spend">R$742,09</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 1 — Cosmopolis Pizza On · alcance de 55,5K</span><span class="camp-spend">R$273,49</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 1 — Artur nogueira Pizza On · alcance de 43,7K</span><span class="camp-spend">R$244,78</span></div>
+      <div class="camp-row"><span class="camp-name">Campanha 2 — Delivery e Salão (conversão) · 8 conversas</span><span class="camp-spend">R$119,15</span></div>
+      <div class="camp-row"><span class="camp-name">Post: “Do salgado ao doce, a felicidade vem completa no...” · 3 conversas</span><span class="camp-spend">R$96,57</span></div>
+      <div class="camp-row"><span class="camp-name">Post do Instagram · 7 conversas</span><span class="camp-spend">R$75,05</span></div>
+      <div class="camp-row"><span class="camp-name">Post do Instagram: “Do salgado ao doce, a...” · 10 conversas</span><span class="camp-spend">R$55,51</span></div>
+      <div class="camp-row"><span class="camp-name">Post do Instagram: “Do salgado ao doce, a...” (anterior)</span><span class="camp-spend">R$3,79</span></div>
+    </div>
+  </div>
+
+  <!-- AGOSTO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Agosto 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Campanhas separadas por cidade · lançamento do Mega Combo</div>
+      </div>
+      <div class="month-invest">R$2.635,50</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">433,4K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">113,6K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">5.112</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$6,08</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">489</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$2.635,50</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="61"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">(ARTUR) Mega Combo TODA quarta e quinta-feira · 207 conversas</span><span class="camp-spend">R$596,89</span></div>
+      <div class="camp-row"><span class="camp-name">(Cosmo) Mega Combo TODA quarta e quinta-feira · 221 conversas</span><span class="camp-spend">R$586,79</span></div>
+      <div class="camp-row"><span class="camp-name">Combo Terça e Quarta - Artur Nogueira · 42 conversas</span><span class="camp-spend">R$391,84</span></div>
+      <div class="camp-row"><span class="camp-name">Combo Terça e Quarta - Cosmopolis · 19 conversas</span><span class="camp-spend">R$350,42</span></div>
+      <div class="camp-row"><span class="camp-name">RECONHECIMENTO Cosmopolis · alcance de 60,9K</span><span class="camp-spend">R$288,00</span></div>
+      <div class="camp-row"><span class="camp-name">RECONHECIMENTO Artur nogueira · alcance de 63K</span><span class="camp-spend">R$285,29</span></div>
+      <div class="camp-row"><span class="camp-name">Combo Ter-Qua / Cosmopolis e artur · alcance de 56,4K</span><span class="camp-spend">R$136,27</span></div>
+    </div>
+  </div>
+
+  <!-- SETEMBRO -->
+  <div class="month-card" data-animate>
+    <div class="month-header">
+      <div>
+        <div class="month-name">Setembro 2026</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Mega Combo nas duas cidades · 680 conversas</div>
+      </div>
+      <div class="month-invest">R$3.186,02</div>
+    </div>
+    <div class="month-metrics">
+      <div class="metric">
+        <div class="metric-label">Impressões</div>
+        <div class="metric-value accent">389,1K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alcance</div>
+        <div class="metric-value">80,5K</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cliques</div>
+        <div class="metric-value">5.224</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">CPM</div>
+        <div class="metric-value" style="color:var(--gold-1)">R$8,19</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversas</div>
+        <div class="metric-value green">680</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Investimento mensal</span><span>R$3.186,02</span></div>
+      <div class="progress-track"><div class="progress-fill" data-pct="73"></div></div>
+    </div>
+    <div class="camp-list">
+      <div class="camp-row"><span class="camp-name">(ARTUR) Mega Combo TODA quarta e quinta-feira · 366 conversas</span><span class="camp-spend">R$1.461,66</span></div>
+      <div class="camp-row"><span class="camp-name">(Cosmo) Mega Combo TODA quarta e quinta-feira · 314 conversas</span><span class="camp-spend">R$1.440,52</span></div>
+      <div class="camp-row"><span class="camp-name">RECONHECIMENTO Cosmopolis · alcance de 40,1K</span><span class="camp-spend">R$144,81</span></div>
+      <div class="camp-row"><span class="camp-name">RECONHECIMENTO Artur nogueira · alcance de 39,8K</span><span class="camp-spend">R$139,03</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INSIGHTS -->
+<div class="section-title">Insights & observações estratégicas</div>
+<div class="insights-grid">
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">💬</div>
+    <div class="insight-title">3.223 conversas iniciadas</div>
+    <div class="insight-text">As campanhas de mensagem somaram 3.223 conversas com R$13.999,39 investidos, um custo médio de R$4,34 por conversa em cinco meses.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">🚀</div>
+    <div class="insight-title">Maio: o melhor mês</div>
+    <div class="insight-text">Maio teve o maior alcance (337,6 mil contas), o maior número de conversas (1.251) e o menor custo por conversa do período: R$2,57.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">📍</div>
+    <div class="insight-title">Duas cidades, campanhas separadas</div>
+    <div class="insight-text">A partir de agosto, Artur Nogueira e Cosmópolis passaram a ter campanhas próprias. Em setembro, o Mega Combo gerou 366 conversas em Artur Nogueira e 314 em Cosmópolis.</div>
+  </div>
+  <div class="insight-card" data-animate>
+    <div class="insight-icon">📊</div>
+    <div class="insight-title">Custo por conversa caiu após julho</div>
+    <div class="insight-text">Julho teve o custo por conversa mais alto (R$9,78), com mais verba em reconhecimento. Com o Mega Combo, caiu para R$3,94 em agosto e ficou em R$4,27 em setembro.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ELITE MARKETING DIGITAL</div>
+  <div class="footer-meta">
+    Relatório gerado em 12 de outubro de 2026<br>
+    Dados extraídos diretamente do Meta Ads Manager
+  </div>
+</footer>
+
+<script>
+  // IntersectionObserver for reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // Animate progress bars inside
+          entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+            const pct = bar.dataset.pct;
+            setTimeout(() => { bar.style.width = pct + '%'; }, 200);
+          });
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
